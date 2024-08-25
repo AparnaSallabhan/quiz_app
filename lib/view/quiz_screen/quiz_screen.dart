@@ -7,8 +7,11 @@ import 'package:quiz_app/view/quiz_screen/widgets/options_card.dart';
 import 'package:quiz_app/view/result_screen/result_screen.dart';
 
 class QuizScreen extends StatefulWidget {
-  const QuizScreen({super.key});
+  const QuizScreen({
+    super.key, 
+    this.categoryIndex});
 
+ final int ?categoryIndex;
   @override
   State<QuizScreen> createState() => _QuizScreenState();
 }
@@ -25,7 +28,7 @@ class _QuizScreenState extends State<QuizScreen> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         actions: [
-          Text("${questionIndex+1} / ${DummyDb.quizData.length} ",style: TextStyle(
+          Text("${questionIndex+1} / ${DummyDb.catQusList[0].length} ",style: TextStyle(
             color: Colors.white
           ),)
         ],
@@ -33,19 +36,21 @@ class _QuizScreenState extends State<QuizScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            _buildQuestionMethod(),
+            _buildQuestionMethod(widget.categoryIndex!),
             SizedBox(height: 20,),
             Column(
               children: List.generate(
                 4, 
                 (index) => OptionsCard(
+                  categoryIndex:widget.categoryIndex,
                   questionIndex: questionIndex,
                   optionIndex:index,
                   borderColor: _getColor(index),
+                  optionIcon: _getIcon(index),
                   onOptionsTap: () {
                     if(selectedAnswerIndex == null){
                       selectedAnswerIndex = index ; 
-                      if(selectedAnswerIndex == DummyDb.quizData[questionIndex]["answer"]){
+                      if(selectedAnswerIndex == DummyDb.catQusList[widget.categoryIndex!][questionIndex]["answer"]){
                         rightAnsCount++;
                       }else{
                         wrongAnsCount++;
@@ -66,7 +71,7 @@ class _QuizScreenState extends State<QuizScreen> {
       ),
       bottomNavigationBar:
       selectedAnswerIndex != null?
-       _buildNextmethod(context) : null,
+       _buildNextmethod(context,) : null,
     );
   }
 
@@ -74,7 +79,7 @@ class _QuizScreenState extends State<QuizScreen> {
     return InkWell(
       onTap: () {
         selectedAnswerIndex = null;
-        if(questionIndex < DummyDb.quizData.length-1){
+        if(questionIndex < DummyDb.catQusList[widget.categoryIndex!].length-1){
            setState(() {
           questionIndex++;           
         });
@@ -83,7 +88,11 @@ class _QuizScreenState extends State<QuizScreen> {
           //ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Thank you")));
           Navigator.pushReplacement(
             context, 
-            MaterialPageRoute(builder: (context) => ResultScreen(rightans: rightAnsCount, wrongans: wrongAnsCount,),));
+            MaterialPageRoute(builder: (context) => ResultScreen(
+              rightans: rightAnsCount, 
+              wrongans: wrongAnsCount,
+              categoryIndex:widget.categoryIndex!,
+              ),));
         }
        
       },
@@ -106,7 +115,7 @@ class _QuizScreenState extends State<QuizScreen> {
     );
   }
 
-  Expanded _buildQuestionMethod() {
+  Expanded _buildQuestionMethod(int categoryIndex) {
     return Expanded(
             child: Stack(
               children: [
@@ -120,11 +129,11 @@ class _QuizScreenState extends State<QuizScreen> {
                       color: Colors.grey[800],
                       borderRadius: BorderRadius.circular(20)),
                   child: Text(
-                   DummyDb.quizData[questionIndex]["question"],
+                   DummyDb.catQusList[categoryIndex][questionIndex]["question"],
                     style: TextStyle(fontSize: 20, color: Colors.white,fontWeight: FontWeight.w500),
                   ),
                 ),
-                selectedAnswerIndex == DummyDb.quizData[questionIndex]["answer"] ?
+                selectedAnswerIndex == DummyDb.catQusList[categoryIndex][questionIndex]["answer"] ?
                 Lottie.asset("assets/lottie/Animation - 1724055345134.json"):
                 SizedBox()
               ],
@@ -135,13 +144,13 @@ class _QuizScreenState extends State<QuizScreen> {
 
   Color _getColor(int index){
     if(selectedAnswerIndex != null){
-      if(index == DummyDb.quizData[questionIndex]["answer"]){
+      if(index == DummyDb.catQusList[widget.categoryIndex!][questionIndex]["answer"]){
         return Colors.green;
       }
-       if(selectedAnswerIndex == index && selectedAnswerIndex == DummyDb.quizData[questionIndex]["answer"]){
+       if(selectedAnswerIndex == index && selectedAnswerIndex == DummyDb.catQusList[widget.categoryIndex!][questionIndex]["answer"]){
       return Colors.green;
     }
-    else if (selectedAnswerIndex == index && selectedAnswerIndex != DummyDb.quizData[questionIndex]["answer"] ){
+    else if (selectedAnswerIndex == index && selectedAnswerIndex != DummyDb.catQusList[widget.categoryIndex!][questionIndex]["answer"] ){
     
       return Colors.red ;
       
@@ -150,6 +159,26 @@ class _QuizScreenState extends State<QuizScreen> {
    
 
     return Colors.grey;
+  }
+
+  Icon _getIcon(int index){
+     if(selectedAnswerIndex != null){
+      if(index == DummyDb.catQusList[widget.categoryIndex!][questionIndex]["answer"]){
+        return Icon(Icons.check_circle,color: Colors.green,);
+        
+      }
+       if(selectedAnswerIndex == index && selectedAnswerIndex == DummyDb.catQusList[widget.categoryIndex!][questionIndex]["answer"]){
+      return Icon(Icons.check_circle,color: Colors.green,);
+    }
+    else if (selectedAnswerIndex == index && selectedAnswerIndex != DummyDb.catQusList[widget.categoryIndex!][questionIndex]["answer"] ){
+    
+      return Icon(Icons.check_circle,color: Colors.red,);
+      
+    }
+    }
+   
+
+    return Icon(Icons.circle_outlined,color: Colors.white,);
   }
 
 }

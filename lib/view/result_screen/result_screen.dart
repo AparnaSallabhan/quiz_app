@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:quiz_app/view/categories_screen/categories_screen.dart';
 import 'package:quiz_app/view/dummy_db.dart';
 import 'package:quiz_app/view/quiz_screen/quiz_screen.dart';
 
@@ -8,12 +9,13 @@ class ResultScreen extends StatefulWidget {
   const ResultScreen({
     super.key, 
     required this.rightans, 
-    required this.wrongans,
+    required this.wrongans, 
+    required this.categoryIndex,
     });
 
   final int rightans;
   final int wrongans;
-  
+  final int categoryIndex;
 
   @override
   State<ResultScreen> createState() => _ResultScreenState();
@@ -76,19 +78,40 @@ class _ResultScreenState extends State<ResultScreen> {
               onTap: () {
                 Navigator.pushReplacement(
                   context, 
-                  MaterialPageRoute(builder: (context) => QuizScreen(),));
+                  MaterialPageRoute(builder: (context) => QuizScreen(categoryIndex:widget.categoryIndex,),));
               },
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 5,horizontal: 25),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
-                  color: Colors.orange,
+                  color: Colors.deepOrange,
                   border: Border.all(
                     color: Colors.white,
                     width: 2
                   )
                 ),
                 child: Text("Restart",style: TextStyle(fontSize: 18, color: Colors.white),),
+              ),
+            ),
+
+            SizedBox(height: 20,),
+            InkWell(
+              onTap: () {
+                Navigator.pushReplacement(
+                  context, 
+                  MaterialPageRoute(builder: (context) => CategoriesScreen(),));
+              },
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 5,horizontal: 25),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: Colors.grey[900],
+                  border: Border.all(
+                    color: Colors.white,
+                    width: 2
+                  )
+                ),
+                child: Text("Start another Quiz",style: TextStyle(fontSize: 18, color: Colors.white),),
               ),
             )
         
@@ -98,8 +121,8 @@ class _ResultScreenState extends State<ResultScreen> {
     );
   }
  int calPercentange(){
-    double percentage = (widget.rightans/DummyDb.quizData.length) * 100;
-    print(percentage);
+    double percentage = (widget.rightans/DummyDb.catQusList[widget.categoryIndex].length) * 100;
+   // print(percentage);
 
     if(percentage >=80){
       return 3;

@@ -9,13 +9,17 @@ class OptionsCard extends StatelessWidget {
     required this.questionIndex, 
     required this. optionIndex, 
     this.onOptionsTap,
-    this.borderColor = Colors.grey
+    this.borderColor = Colors.grey, 
+    required this.categoryIndex, 
+    required this.optionIcon
   });
 
+  final int ? categoryIndex;
   final int questionIndex;
   final int optionIndex;
   final void Function()? onOptionsTap;
   final Color borderColor;
+  final Icon optionIcon;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -37,12 +41,13 @@ class OptionsCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-              DummyDb.quizData[questionIndex]["options"][optionIndex],
+              DummyDb.catQusList[categoryIndex!][questionIndex]["options"][optionIndex],
               style: TextStyle(
                 fontSize: 18,
                 color: Colors.white
               ),),
-              Icon(Icons.circle_outlined,color: Colors.white,)
+              //Icon(Icons.circle_outlined,color: Colors.white,)
+              optionIcon
             ],
           ),
         ),

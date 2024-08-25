@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
+import 'package:countdown_progress_indicator/countdown_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:quiz_app/view/dummy_db.dart';
@@ -21,6 +22,7 @@ class _QuizScreenState extends State<QuizScreen> {
   int ? selectedAnswerIndex;
   int rightAnsCount = 0;
   int wrongAnsCount = 0;
+  final _controller = CountDownController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,7 +120,7 @@ class _QuizScreenState extends State<QuizScreen> {
   Expanded _buildQuestionMethod(int categoryIndex) {
     return Expanded(
             child: Stack(
-              children: [
+              children: [               
                 Container(
                   alignment: Alignment.center,
                   height: 200,
@@ -133,6 +135,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     style: TextStyle(fontSize: 20, color: Colors.white,fontWeight: FontWeight.w500),
                   ),
                 ),
+                
                 selectedAnswerIndex == DummyDb.catQusList[categoryIndex][questionIndex]["answer"] ?
                 Lottie.asset("assets/lottie/Animation - 1724055345134.json"):
                 SizedBox()
@@ -172,7 +175,7 @@ class _QuizScreenState extends State<QuizScreen> {
     }
     else if (selectedAnswerIndex == index && selectedAnswerIndex != DummyDb.catQusList[widget.categoryIndex!][questionIndex]["answer"] ){
     
-      return Icon(Icons.check_circle,color: Colors.red,);
+      return Icon(Icons.cancel,color: Colors.red,);
       
     }
     }

@@ -68,7 +68,7 @@ static const List categoryList = [
   {
     "image" : "assets/images/maths.png",
     "categoryName" : "Maths", 
-    "qusNo" : "16 Questions",
+    "qusNo" : "15 Questions",
   },
   {
     "image" : "assets/images/history.png",
@@ -253,11 +253,7 @@ static const List <List> catQusList = [
   "options": ["H2SO4", "HCl", "HNO3", "H2CO3"],
   "answer": 0
 },
-// {
-//   "question": "Which type of bond is formed between sodium and chlorine in sodium chloride?",
-//   "options": ["Covalent", "Ionic", "Metallic", "Hydrogen"],
-//   "answer": 1
-// }
+
 
 ],
 //#3 maths

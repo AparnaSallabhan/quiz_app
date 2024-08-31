@@ -23,7 +23,7 @@ class OptionsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15,vertical: 7),
+      padding: EdgeInsets.symmetric(vertical: 7),
       child: InkWell(
         onTap:onOptionsTap ,
         child: Container(

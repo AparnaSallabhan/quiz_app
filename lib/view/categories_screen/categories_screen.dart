@@ -17,7 +17,6 @@ class CategoriesScreen extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-
             children: [
               //row1
               Row(
@@ -78,8 +77,12 @@ class CategoriesScreen extends StatelessWidget {
                     itemBuilder: (context, index) => InkWell(
                       onTap: () {
                         Navigator.push(
-                          context, 
-                          MaterialPageRoute(builder: (context) =>QuizScreen(categoryIndex: index,) ,));
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => QuizScreen(
+                                categoryIndex: index,
+                              ),
+                            ));
                       },
                       child: Stack(
                         alignment: Alignment.center,
@@ -87,8 +90,8 @@ class CategoriesScreen extends StatelessWidget {
                           Container(
                             height: 180,
                             width: double.infinity,
-                            padding:
-                                EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 20),
                             decoration: BoxDecoration(
                                 color: Colors.grey[800],
                                 borderRadius: BorderRadius.circular(20)),
@@ -98,19 +101,18 @@ class CategoriesScreen extends StatelessWidget {
                               children: [
                                 Text(
                                   DummyDb.categoryList[index]["categoryName"],
-                                  style:
-                                      TextStyle(
-                                        color: Colors.white, 
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w500),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500),
                                 ),
                                 SizedBox(
                                   height: 8,
                                 ),
                                 Text(
                                   DummyDb.categoryList[index]["qusNo"],
-                                  style:
-                                      TextStyle(color: Colors.white, fontSize: 16),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 16),
                                 ),
                               ],
                             ),
